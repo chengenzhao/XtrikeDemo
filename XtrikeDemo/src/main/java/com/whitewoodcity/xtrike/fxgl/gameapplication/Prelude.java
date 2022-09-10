@@ -52,8 +52,7 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
   private Loading loading;
   private Entity player;
   private boolean isTalking = false;
-  private Duration longDuration = Duration.seconds(.3);
-  private Duration shortDuration = Duration.seconds(.3);
+  private Duration standardDuration = Duration.seconds(.3);
 
   @Override
   protected void initSettings(GameSettings settings) {
@@ -160,7 +159,7 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
     getAudioPlayer().loopMusic(getAssetLoader().loadMusic("train0.mp3"));
     new Transition() {
       {
-        setCycleDuration(longDuration);
+        setCycleDuration(standardDuration);
       }
 
       protected void interpolate(double frac) {
@@ -257,7 +256,7 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
 
     var transition = new Transition() {
       {
-        setCycleDuration(longDuration);
+        setCycleDuration(standardDuration);
         dialogBackground.setOpacity(1);
         dialogFrame.setOpacity(1);
         dialogBackground.setVisible(true);
@@ -283,7 +282,6 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
     };
     transition.setOnFinished(e -> processScript(scripts, height, width));
     transition.play();
-//    processScript(scripts, height, width);
   }
 
   public void hideDialog() {
@@ -291,7 +289,7 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
 
     var animation = new Transition() {
       {
-        setCycleDuration(longDuration);
+        setCycleDuration(standardDuration);
       }
 
       @Override
@@ -358,26 +356,26 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
         view0 = null;
       }
 
-      var viewFt = new FadeTransition(shortDuration, view);
+      var viewFt = new FadeTransition(standardDuration, view);
       viewFt.setToValue(1);
-      var dialogFt = new FadeTransition(shortDuration, textFlow);
+      var dialogFt = new FadeTransition(standardDuration, textFlow);
       dialogFt.setToValue(1);
       EventHandler<ActionEvent> onFinished = (e -> {
         var singleScript = script.script();
 
         processLineByLine(new Scanner(singleScript), textFlow.getText(), () -> {
-          var ft = new FadeTransition(shortDuration, view);
+          var ft = new FadeTransition(standardDuration, view);
           ft.setToValue(0);
           ft.setOnFinished(ee -> removeUINode(view));
           ft.play();
 
-          ft = new FadeTransition(shortDuration, textFlow);
+          ft = new FadeTransition(standardDuration, textFlow);
           ft.setToValue(0);
           ft.setOnFinished(ee -> removeUINode(textFlow));
           ft.play();
 
           if (view0 != null) {
-            ft = new FadeTransition(shortDuration, view0);
+            ft = new FadeTransition(standardDuration, view0);
             ft.setToValue(0);
             ft.setOnFinished(ee -> removeUINode(view0));
             ft.play();
@@ -389,7 +387,7 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
 
       var pt = new ParallelTransition(viewFt, dialogFt);
       if (view0 != null) {
-        var ft = new FadeTransition(shortDuration, view0);
+        var ft = new FadeTransition(standardDuration, view0);
         ft.setToValue(1);
         pt.getChildren().add(ft);
       }
