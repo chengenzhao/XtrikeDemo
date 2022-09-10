@@ -28,9 +28,6 @@ public class LogoPane extends PushAndPopStackPane {
   public LogoPane(Stage stage, Map<Object, Object> parameters) {
     super(stage, parameters);
 
-//    Stop[] stops = new Stop[] { new Stop(0, Color.WHITE), new Stop(.5, Color.GRAY), new Stop(1, Color.WHITE)};
-//    LinearGradient linearGradient = new LinearGradient(0, 0, 0, 1, true, CycleMethod.NO_CYCLE, stops);
-
     var x = new Text("X   ");
     x.setUnderline(true);
     x.fontProperty().bind(stage.heightProperty().map(v -> Font.font("Ewert", v.floatValue() / 3)));

@@ -6,7 +6,6 @@ import com.almasb.fxgl.app.scene.FXGLMenu;
 import com.almasb.fxgl.app.scene.LoadingScene;
 import com.almasb.fxgl.app.scene.SceneFactory;
 import com.almasb.fxgl.core.math.FXGLMath;
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.input.KeyTrigger;
@@ -94,7 +93,7 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
     var screenHeight = Screen.getPrimary().getBounds().getHeight();
 
     //background
-    var bgImage = FXGL.image("backgrounds/castle/mountain.png");
+    var bgImage = image("backgrounds/castle/mountain.png");
     var bgImageView = new ImageView(bgImage);
 
     var width = screenWidth / screenHeight * 1000;
@@ -158,7 +157,7 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
 
     runOnce(() -> showDialog(player.getX() - viewport.getX(), player.getY(), selfTalking), Duration.seconds(2));
 
-    FXGL.getAudioPlayer().loopMusic(FXGL.getAssetLoader().loadMusic("train0.mp3"));
+    getAudioPlayer().loopMusic(getAssetLoader().loadMusic("train0.mp3"));
     new Transition() {
       {
         setCycleDuration(longDuration);
@@ -170,7 +169,7 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
     }.play();
     loading.setProgress(29, 100);
 
-    FXGL.getAssetLoader().loadMusic("text-blip.mp3");
+    getAssetLoader().loadMusic("text-blip.mp3");
     loading.setProgress(30,100);
   }
 
@@ -319,7 +318,7 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
         default -> "units/character/clancy/mug.png";
       };
 
-      var image = FXGL.image(from);
+      var image = image(from);
       var view = new ImageView(image);
       view.setPreserveRatio(true);
       view.setFitHeight(image.getHeight() * .5);
@@ -328,9 +327,9 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
       addUINode(view);
 
       var font = switch (script.from().toLowerCase()) {
-        case "tessa", "girl" -> FXGL.getAssetLoader().loadFont("Carattere-Regular.ttf").newFont(80);
-        case "clancy" -> FXGL.getAssetLoader().loadFont("PassionsConflict-Regular.ttf").newFont(80);
-        default -> FXGL.getAssetLoader().loadFont("Lato-Regular.ttf").newFont(50);
+        case "tessa", "girl" -> getAssetLoader().loadFont("Carattere-Regular.ttf").newFont(80);
+        case "clancy" -> getAssetLoader().loadFont("PassionsConflict-Regular.ttf").newFont(80);
+        default -> getAssetLoader().loadFont("Lato-Regular.ttf").newFont(50);
       };
       Dialog textFlow = new Dialog();
       textFlow.getName().setText(script.from());
@@ -347,7 +346,7 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
           case "tessa", "girl" -> "units/character/tessa/mug.png";
           default -> "units/character/clancy/mug.png";
         };
-        image = FXGL.image(to);
+        image = image(to);
         view0 = new ImageView(image);
         view0.setPreserveRatio(true);
         view0.setScaleX(-1);
@@ -406,10 +405,10 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
   private void processLineByLine(Scanner scanner, Text text, Runnable setOnFinished) {
     if (scanner.hasNext()) {
       String line = scanner.nextLine();
-      var blip = FXGL.getAssetLoader().loadMusic("text-blip.mp3");
+      var blip = getAssetLoader().loadMusic("text-blip.mp3");
       blip.getAudio().setVolume(Main.soundVolume);
-      FXGL.getAudioPlayer().playMusic(blip);
-      var font = FXGL.getAssetLoader().loadFont("Lato-Regular.ttf").newFont(50);
+      getAudioPlayer().playMusic(blip);
+      var font = getAssetLoader().loadFont("Lato-Regular.ttf").newFont(50);
       text.setFont(font);
       final Animation animation = new Transition() {
         {
@@ -424,13 +423,13 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
       };
 
       animation.setOnFinished(e -> {
-        FXGL.getAudioPlayer().stopMusic(blip);
-        FXGL.getInput().addTriggerListener(new TriggerListener() {
+        getAudioPlayer().stopMusic(blip);
+        getInput().addTriggerListener(new TriggerListener() {
           @Override
           protected void onActionBegin(Trigger trigger) {
             if (trigger instanceof KeyTrigger) {
               Platform.runLater(() -> {
-                FXGL.getInput().removeTriggerListener(this);
+                getInput().removeTriggerListener(this);
                 processLineByLine(scanner, text, setOnFinished);
               });
             }
