@@ -288,8 +288,6 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
 
   public void hideDialog() {
     isTalking = false;
-    var screenWidth = Screen.getPrimary().getBounds().getWidth();
-    var screenHeight = Screen.getPrimary().getBounds().getHeight();
 
     var animation = new Transition() {
       {
