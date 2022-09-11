@@ -37,7 +37,6 @@ import static com.almasb.fxgl.dsl.FXGL.*;
 import static com.whitewoodcity.xtrike.fxgl.entity.Type.PLAYER;
 import static com.whitewoodcity.xtrike.fxgl.entity.Type.TESSA;
 import static com.whitewoodcity.xtrike.fxgl.input.InputUtil.onKey;
-import static com.whitewoodcity.xtrike.util.Util.loadConfig;
 
 public class Prelude extends GameApplication implements PlotGameApplication, GetLoadingBackgroundFill {
 
