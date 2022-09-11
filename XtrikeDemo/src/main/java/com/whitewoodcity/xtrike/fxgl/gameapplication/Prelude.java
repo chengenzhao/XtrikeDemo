@@ -18,10 +18,7 @@ import com.whitewoodcity.xtrike.fxgl.Loading;
 import com.whitewoodcity.xtrike.fxgl.entity.Factory;
 import com.whitewoodcity.xtrike.fxgl.entity.units.characters.Clancy;
 import com.whitewoodcity.xtrike.fxgl.handler.collisionhandler.PromptOnceCollisionHandler;
-import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
-import javafx.animation.ParallelTransition;
-import javafx.animation.Transition;
+import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -64,16 +61,7 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
     settings.setSceneFactory(new SceneFactory() {
       @Override
       public FXGLMenu newGameMenu() {
-        var menu = new GameMenu();
-
-        try {
-          var menuStrings = loadConfig("fxgl");
-          menu.setMenuStrings(menuStrings);
-        } catch (Exception e) {
-          log.fatal(e.getMessage(), e);
-        }
-
-        return menu;
+        return new GameMenu();
       }
 
       @Override
@@ -286,24 +274,14 @@ public class Prelude extends GameApplication implements PlotGameApplication, Get
 
   public void hideDialog() {
     isTalking = false;
-
-    var animation = new Transition() {
-      {
-        setCycleDuration(standardDuration);
-      }
-
-      @Override
-      protected void interpolate(double frac) {
-        frac = 1 - frac;
-        dialogBackground.setOpacity(frac);
-        dialogFrame.setOpacity(frac);
-      }
-    };
-    animation.setOnFinished(e -> {
+    Timeline timeline = new Timeline(new KeyFrame(standardDuration,
+      new KeyValue(dialogBackground.opacityProperty(), 0),
+      new KeyValue(dialogFrame.opacityProperty(), 0)));
+    timeline.setOnFinished(e -> {
       dialogBackground.setVisible(false);
       dialogFrame.setVisible(false);
     });
-    animation.play();
+    timeline.play();
   }
 
   private void processScript(ScriptsList list, double height, double width) {
